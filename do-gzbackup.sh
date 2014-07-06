@@ -2,23 +2,23 @@
 # Rylee Fowler 2014
 
 eval `keychain --noask --quiet --eval id_rsa F637E333` || exit 1
-backup_dirs_unenc=( $HOME/irclogs $HOME/.vim $HOME/code/dotfiles $HOME/bin )
-backup_dirs_enc=( $HOME/eggdrop $HOME/eggdrop.info $HOME/cool $HOME/.ssh\
+backup_dirs=( $HOME/eggdrop $HOME/eggdrop.info $HOME/cool $HOME/.ssh\
 	$HOME/.ssl $HOME/code/resume $HOME/code/dotfiles\
-	$HOME/.tmuxinator $HOME/public_html $HOME/code/Terminus-Bot )
+	$HOME/.tmuxinator $HOME/public_html $HOME/code/Terminus-Bot\
+	$HOME/irclogs $HOME/.vim $HOME/code/dotfiles $HOME/bin
+	)
 weechats=( $HOME/.weechat/ $HOME/nexus/.weechat/ $HOME/dawn/.weechat/ $HOME/xmpp-weechat/.weechat/ )
 weechat_owners=( rylee nexus dawn hangouts )
 tmpdir="$(mktemp -d)"
 backups_dir=backups/
-servers_trusted=( davion )
-servers_untrusted=( davion citadel )
+servers=( davion citadel globemaster)
 mykey=F637E333
 
 # Usage: backup_file $local_file
 # Copies a given file to the $backups_dir on the backup server.
 backup_file() {
 	local local_file="$1";
-	for server in "${servers_untrusted[@]}"; do
+	for server in "${servers[@]}"; do
 		scp -q "$1" "$server:$backups_dir/";
 	done;
 }
@@ -28,7 +28,7 @@ backup_file() {
 backup_dir() {
 	local local_dir="$1";
 	local remote_dir="$2";
-	for server in "${servers_trusted[@]}"; do
+	for server in "${servers[@]}"; do
 		rsync --quiet --recursive --copy-links --copy-dirlinks "$1/" "$server:$backups_dir/$2";
 	done;
 }
@@ -61,16 +61,13 @@ encrypt_weechat() {
 
 trap "{ rm -rf \"$tmpdir\"; }" EXIT
 
-for dir in "${backup_dirs_unenc[@]}"; do
-	remote_name="$(basename $dir)";
-	remote_name="${remote_name#.}";
-	backup_dir "$dir" "$remote_name";
-done
-for dir in "${backup_dirs_enc[@]}"; do
-	encrypt_dir "$dir";
-	backup_file "$gpg_loc";
+for dir in "${backup_dirs[@]}"; do
+	encrypt_dir "$dir"
 done
 for i in "${!weechats[@]}"; do
 	encrypt_weechat "${weechats[$i]}" "${weechat_owners[$i]}";
-	backup_file "$gpg_loc";
 done
+
+# We GPG encrypt everything and then sync it across to all hosts with rsync.
+# This way is definitely better, trust me.
+backup_dir "$tmpdir" ""
