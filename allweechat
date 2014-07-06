@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+['/home/rylai/.weechat/weechat_fifo_*',
+ '/home/rylai/dawn/.weechat/weechat_fifo_*',
+ '/home/rylai/nexus/.weechat/weechat_fifo_*',
+ '/home/rylai/xmpp-weechat/.weechat/weechat_fifo_*'
+].map { |d| Dir[d].first }.each do |path|
+  File.open path, 'w' do |f|
+    f.puts "*#{ARGV.join ' '}"
+  end
+end
