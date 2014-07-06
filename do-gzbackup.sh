@@ -42,11 +42,10 @@ encrypt_dir() {
 	gpg_loc="$tmpdir/$gpgname";
 	# Some explaining:
 	# - Using -h because some of the files I want to keep are symlinked (in $HOME/bin, for example).
-	# - Using `J` compression (LZMA) because it's really good. Wow.
 	# - We change directory to $(dirname $dir) and tar up $(basename $dir)
 	#   so that we have *relative* file paths, not absolutes (i.e. not
 	#   hardcoded to extract into /home/rylai/$whatever
-	tar cz -h --exclude=cm_socket --exclude=.dbox -C "$(dirname $dir)" "$(basename $dir)" | gpg --encrypt -r "$mykey" > "$gpg_loc";
+	tar  cz --warning=no-file-changed -h --exclude=cm_socket --exclude=.dbox -C "$(dirname $dir)" "$(basename $dir)" | gpg --encrypt -r "$mykey" > "$gpg_loc";
 }
 
 # Usage: encrypt_weechat $dir $owner
@@ -56,7 +55,7 @@ encrypt_weechat() {
 	local dir="$1";
 	local owner="$2";
 	gpg_loc="$tmpdir/$owner-weechat.gpg";
-	tar cz -h --exclude=logs -C "$(dirname $dir)" "$(basename $dir)" | gpg --encrypt -r "$mykey" > "$gpg_loc";
+	tar cz -h --warning=no-file-changed --exclude=logs -C "$(dirname $dir)" "$(basename $dir)" | gpg --encrypt -r "$mykey" > "$gpg_loc";
 }
 
 trap "{ rm -rf \"$tmpdir\"; }" EXIT
