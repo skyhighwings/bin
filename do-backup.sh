@@ -11,7 +11,7 @@ weechats=( $HOME/.weechat/ $HOME/nexus/.weechat/ $HOME/dawn/.weechat/ $HOME/xmpp
 weechat_owners=( rylee nexus dawn hangouts )
 tmpdir="$(mktemp -d)"
 backups_dir=backups/
-servers=( davion citadel globemaster)
+servers=( davion citadel )
 mykey=F637E333
 
 # Usage: backup_file $local_file
