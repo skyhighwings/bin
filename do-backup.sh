@@ -4,8 +4,8 @@
 eval `keychain --noask --quiet --eval id_rsa F637E333` || exit 1
 backup_dirs=( $HOME/eggdrop $HOME/eggdrop.info $HOME/cool $HOME/.ssh\
 	$HOME/.ssl $HOME/code/resume $HOME/code/dotfiles\
-	$HOME/.tmuxinator $HOME/public_html $HOME/code/Terminus-Bot\
-	$HOME/irclogs $HOME/.vim $HOME/code/dotfiles $HOME/bin
+	$HOME/.tmuxinator $HOME/code/Terminus-Bot\
+	$HOME/.vim $HOME/code/dotfiles $HOME/bin
 	)
 weechats=( $HOME/.weechat/ $HOME/nexus/.weechat/ $HOME/dawn/.weechat/ $HOME/xmpp-weechat/.weechat/ )
 weechat_owners=( rylee nexus dawn hangouts )
