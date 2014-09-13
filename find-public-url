@@ -21,7 +21,7 @@
 
 require 'uri'
 
-public_html_dir = '/home/rylai/public_html/'
+public_html_dir = '/home/rylee/public_html/'
 website_url     = 'https://www.rylee.me/~rylee/'
 
 ARGV.each do |entry|
