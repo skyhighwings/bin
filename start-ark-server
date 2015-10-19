@@ -1,0 +1,2 @@
+cd /home/rylee/ark-survival-online/ShooterGame/Binaries/Linux/
+./ShooterGameServer TheIsland?listen -server -log

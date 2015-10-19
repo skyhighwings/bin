@@ -1,0 +1,2 @@
+cd ~/steamcmd/
+./steamcmd.sh +login anonymous +force_install_dir /home/rylee/ark-survival-online +app_update 376030 validate +exit
