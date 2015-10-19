@@ -1,0 +1,6 @@
+#!/usr/bin/env zsh
+
+cd $HOME/code/dactyl
+git pull
+make -C pentadactyl xpi 2>&1  >build.tmp; if [ $? -eq 0 ]; then rm build.tmp; else vim build.tmp; rm build.tmp; fi
+make -C teledactyl xpi  2>&1  >build.tmp; if [ $? -eq 0 ]; then rm build.tmp; else cat build.tmp; rm build.tmp; fi
